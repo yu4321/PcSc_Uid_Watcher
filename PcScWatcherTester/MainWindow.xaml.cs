@@ -45,7 +45,8 @@ namespace PcScWatcherTester
             }
             catch(Exception e)
             {
-                recvdValue.Text = e.Message;
+                recvdValue.Text = "ERROR";
+
             }
           
            

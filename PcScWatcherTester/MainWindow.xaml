@@ -11,7 +11,7 @@
             <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" >
             Received Value:
             </TextBlock>
-            <TextBlock x:Name="recvdValue" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20" FontSize="50" />
+            <TextBlock x:Name="recvdValue" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20" FontSize="50" TextWrapping="Wrap"/>
         </Grid>
         <TextBox x:Name="tb" HorizontalAlignment="Right" Width="340" Background="Black" Foreground="White" TextChanged="TextBox_TextChanged" TextWrapping="Wrap"/>
     </Grid>

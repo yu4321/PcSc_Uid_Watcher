@@ -35,26 +35,46 @@ namespace PcScWatcher
 
         public void Initialize()
         {
-            using (var context = ContextFactory.Instance.Establish(SCardScope.System))
+            try
             {
-                var readerNames = context.GetReaders();
-                monitor = MonitorFactory.Instance.Create(SCardScope.System);
+                using (var context = ContextFactory.Instance.Establish(SCardScope.System))
+                {
+                    var readerNames = context.GetReaders();
+                    monitor = MonitorFactory.Instance.Create(SCardScope.System);
 
-                monitor.CardInserted += Monitor_CardInserted;
-                monitor.Start(readerNames[0]);
+                    monitor.CardInserted += Monitor_CardInserted;
+                    monitor.Start(readerNames[0]);
 
-                LogAction?.Invoke($"SCardWatcher Initialized : Connected to {readerNames[0]}");
+                    LogAction?.Invoke($"SCardWatcher Initialized : Connected to {readerNames[0]}");
+                }
             }
+            catch (Exception e)
+            {
+                LogAction?.Invoke($"SCardWatcher Initialize Error : Problem with Auto connect.");
+                LogAction?.Invoke(e.ToString());
+                throw;
+            }
+           
         }
 
         public void Initialize(string explicitName)
         {
-            monitor = MonitorFactory.Instance.Create(SCardScope.System);
+            try
+            {
+                monitor = MonitorFactory.Instance.Create(SCardScope.System);
 
-            monitor.CardInserted += Monitor_CardInserted;
-            monitor.Start(explicitName);
+                monitor.CardInserted += Monitor_CardInserted;
+                monitor.Start(explicitName);
 
-            LogAction?.Invoke($"SCardWatcher Initialized : Connected to {explicitName}");
+                LogAction?.Invoke($"SCardWatcher Initialized : Connected to {explicitName}");
+            }
+            catch(Exception e)
+            {
+                LogAction?.Invoke($"SCardWatcher Initialize Error : Problem with connected to {explicitName}.");
+                LogAction?.Invoke(e.ToString());
+                throw;
+            }
+
         }
 
         private void Monitor_CardInserted(object sender, CardStatusEventArgs e)
